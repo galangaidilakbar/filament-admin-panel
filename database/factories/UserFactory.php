@@ -27,8 +27,10 @@ class UserFactory extends Factory
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
+            'password' => (static::$password ??= Hash::make('password')),
             'remember_token' => Str::random(10),
+            'is_active' => fake()->boolean(),
+            'last_login_at' => fake()->dateTimeBetween('-1 year'),
         ];
     }
 
@@ -37,8 +39,34 @@ class UserFactory extends Factory
      */
     public function unverified(): static
     {
-        return $this->state(fn (array $attributes) => [
-            'email_verified_at' => null,
-        ]);
+        return $this->state(
+            fn (array $attributes) => [
+                'email_verified_at' => null,
+            ]
+        );
+    }
+
+    /**
+     * Indicate that the model's is_active should be false.
+     */
+    public function inactive(): static
+    {
+        return $this->state(
+            fn (array $attributes) => [
+                'is_active' => false,
+            ]
+        );
+    }
+
+    /**
+     * Indicate that the model's is_active should be true.
+     */
+    public function active(): static
+    {
+        return $this->state(
+            fn (array $attributes) => [
+                'is_active' => true,
+            ]
+        );
     }
 }
