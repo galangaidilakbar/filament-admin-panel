@@ -4,6 +4,9 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
 use App\Models\User;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -14,12 +17,31 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-users';
 
     public static function form(Form $form): Form
     {
         return $form->schema([
-            //
+            TextInput::make('name')->required()->maxLength(255),
+            TextInput::make('email')
+                ->email()
+                ->required()
+                ->maxLength(255)
+                ->unique('users', 'email'),
+            TextInput::make('password')
+                ->password()
+                ->revealable()
+                ->visibleOn(['create', 'edit']),
+            Toggle::make('is_active'),
+            DateTimePicker::make('created_at')
+                ->disabled()
+                ->hiddenOn(['create', 'edit']),
+            DateTimePicker::make('updated_at')
+                ->native(false)
+                ->hiddenOn(['create', 'edit']),
+            DateTimePicker::make('last_login_at')
+                ->native(false)
+                ->hiddenOn(['create', 'edit']),
         ]);
     }
 
@@ -30,13 +52,13 @@ class UserResource extends Resource
                 TextColumn::make('name'),
                 TextColumn::make('email'),
                 TextColumn::make('is_active')
-                    ->label('Status') // Optional: Change the label to "Status"
+                    ->label('Status')
                     ->badge()
                     ->formatStateUsing(
                         fn (bool $state): string => $state
                             ? 'Active'
                             : 'Inactive'
-                    ) // Format the text based on state
+                    )
                     ->color(
                         fn (bool $state): string => $state ? 'success' : 'gray'
                     ),
