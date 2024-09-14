@@ -95,7 +95,7 @@ class UserResource extends Resource
     public static function infolist(Infolist $infolist): Infolist
     {
         return $infolist->schema([
-            Section::make([
+            Section::make('User Details')->schema([
                 TextEntry::make('id')->copyable(),
                 TextEntry::make('name'),
                 TextEntry::make('email')->copyable(),
@@ -111,7 +111,7 @@ class UserResource extends Resource
                     ),
             ]),
 
-            Section::make([
+            Section::make('Dates')->schema([
                 TextEntry::make('created_at')->dateTime()->sinceTooltip(),
                 TextEntry::make('updated_at')->dateTime(),
                 TextEntry::make('last_login_at')->dateTime()->sinceTooltip(),
