@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -67,6 +66,8 @@ return [
 
     'timezone' => env('APP_TIMEZONE', 'UTC'),
 
+    'admin_timezone' => env('APP_ADMIN_TIMEZONE', 'Asia/Jakarta'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Locale Configuration
@@ -100,9 +101,7 @@ return [
     'key' => env('APP_KEY'),
 
     'previous_keys' => [
-        ...array_filter(
-            explode(',', env('APP_PREVIOUS_KEYS', ''))
-        ),
+        ...array_filter(explode(',', env('APP_PREVIOUS_KEYS', ''))),
     ],
 
     /*
@@ -122,5 +121,4 @@ return [
         'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
-
 ];

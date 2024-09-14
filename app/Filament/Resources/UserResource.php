@@ -74,9 +74,15 @@ class UserResource extends Resource
                 TextColumn::make('name'),
                 TextColumn::make('email'),
                 ToggleColumn::make('is_active'),
-                TextColumn::make('created_at')->dateTime(),
-                TextColumn::make('updated_at')->dateTime(),
-                TextColumn::make('last_login_at')->dateTime(),
+                TextColumn::make('created_at')->dateTime(
+                    timezone: config('app.admin_timezone')
+                ),
+                TextColumn::make('updated_at')->dateTime(
+                    timezone: config('app.admin_timezone')
+                ),
+                TextColumn::make('last_login_at')->dateTime(
+                    timezone: config('app.admin_timezone')
+                ),
             ])
             ->filters([
                 //
