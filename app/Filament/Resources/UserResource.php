@@ -26,6 +26,8 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
+    protected static ?string $recordTitleAttribute = 'name';
+
     public static function form(Form $form): Form
     {
         return $form->schema([
@@ -80,15 +82,18 @@ class UserResource extends Resource
                 TextColumn::make('name'),
                 TextColumn::make('email'),
                 ToggleColumn::make('is_active')->onColor('success'),
-                TextColumn::make('created_at')->dateTime(
-                    timezone: config('app.admin_timezone')
-                ),
-                TextColumn::make('updated_at')->dateTime(
-                    timezone: config('app.admin_timezone')
-                ),
-                TextColumn::make('last_login_at')->dateTime(
-                    timezone: config('app.admin_timezone')
-                ),
+                TextColumn::make('created_at')
+                    ->dateTime(timezone: config('app.admin_timezone'))
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('updated_at')
+                    ->dateTime(timezone: config('app.admin_timezone'))
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('last_login_at')
+                    ->dateTime(timezone: config('app.admin_timezone'))
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: false),
             ])
             ->filters([
                 //
