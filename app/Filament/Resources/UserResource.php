@@ -3,16 +3,17 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
-use App\Filament\Resources\UserResource\RelationManagers\RolesRelationManager;
 use App\Models\User;
-use Filament\Forms\Components\Section as ComponentsSection;
+use Filament\Forms\Components\CheckboxList;
+use Filament\Forms\Components\Section as FormSection;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
-use Filament\Infolists\Components\Section;
+use Filament\Infolists\Components\Section as InfolistSection;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\FontFamily;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
@@ -28,7 +29,7 @@ class UserResource extends Resource
     public static function form(Form $form): Form
     {
         return $form->schema([
-            ComponentsSection::make('User Details')->schema([
+            FormSection::make('User Details')->schema([
                 TextInput::make('name')->required()->maxLength(255),
 
                 TextInput::make('email')
@@ -49,9 +50,13 @@ class UserResource extends Resource
                     ->visibleOn('create'),
 
                 Toggle::make('is_active'),
+
+                CheckboxList::make('roles')
+                    ->relationship('roles', 'name')
+                    ->columns(2),
             ]),
 
-            ComponentsSection::make('Set New Password')
+            FormSection::make('Set New Password')
                 ->schema([
                     TextInput::make('new_password')
                         ->nullable()
@@ -74,7 +79,7 @@ class UserResource extends Resource
             ->columns([
                 TextColumn::make('name'),
                 TextColumn::make('email'),
-                ToggleColumn::make('is_active'),
+                ToggleColumn::make('is_active')->onColor('success'),
                 TextColumn::make('created_at')->dateTime(
                     timezone: config('app.admin_timezone')
                 ),
@@ -102,8 +107,10 @@ class UserResource extends Resource
     public static function infolist(Infolist $infolist): Infolist
     {
         return $infolist->schema([
-            Section::make('User Details')->schema([
-                TextEntry::make('id')->copyable(),
+            InfolistSection::make('User Details')->schema([
+                TextEntry::make('id')
+                    ->copyable()
+                    ->fontFamily(FontFamily::Mono),
                 TextEntry::make('name'),
                 TextEntry::make('email')->copyable(),
                 TextEntry::make('is_active')
@@ -116,19 +123,28 @@ class UserResource extends Resource
                     ->color(
                         fn (bool $state): string => $state ? 'success' : 'gray'
                     ),
+                TextEntry::make('roles.name'),
             ]),
 
-            Section::make('Dates')->schema([
-                TextEntry::make('created_at')->dateTime()->sinceTooltip(),
-                TextEntry::make('updated_at')->dateTime(),
-                TextEntry::make('last_login_at')->dateTime()->sinceTooltip(),
+            InfolistSection::make('Dates')->schema([
+                TextEntry::make('created_at')
+                    ->dateTime(timezone: config('app.admin_timezone'))
+                    ->sinceTooltip(),
+                TextEntry::make('updated_at')->dateTime(
+                    timezone: config('app.admin_timezone')
+                ),
+                TextEntry::make('last_login_at')
+                    ->dateTime(timezone: config('app.admin_timezone'))
+                    ->sinceTooltip(),
             ]),
         ]);
     }
 
     public static function getRelations(): array
     {
-        return [RolesRelationManager::class];
+        return [
+            //
+        ];
     }
 
     public static function getPages(): array

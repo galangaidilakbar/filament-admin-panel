@@ -1,5 +1,7 @@
 <?php
 
+use App\Enums\RoleName;
+
 return [
     'shield_resource' => [
         'should_register_navigation' => true,
@@ -19,7 +21,7 @@ return [
 
     'super_admin' => [
         'enabled' => true,
-        'name' => 'super_admin',
+        'name' => RoleName::SuperAdmin->value,
         'define_via_gate' => false,
         'intercept_gate' => 'before', // after
     ],
@@ -65,13 +67,9 @@ return [
     'exclude' => [
         'enabled' => true,
 
-        'pages' => [
-            'Dashboard',
-        ],
+        'pages' => ['Dashboard'],
 
-        'widgets' => [
-            'AccountWidget', 'FilamentInfoWidget',
-        ],
+        'widgets' => ['AccountWidget', 'FilamentInfoWidget'],
 
         'resources' => [],
     ],
@@ -85,5 +83,4 @@ return [
     'register_role_policy' => [
         'enabled' => true,
     ],
-
 ];
