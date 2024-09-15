@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 /**
  * @property int $id
@@ -29,6 +30,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\District> $districts
  * @property-read int|null $districts_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\PostalCode> $postalCodes
+ * @property-read int|null $postal_codes_count
  *
  * @mixin \Eloquent
  */
@@ -44,5 +47,10 @@ class City extends Model
     public function districts(): HasMany
     {
         return $this->hasMany(District::class);
+    }
+
+    public function postalCodes(): HasManyThrough
+    {
+        return $this->hasManyThrough(PostalCode::class, District::class);
     }
 }

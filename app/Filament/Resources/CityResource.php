@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Imports\CityImporter;
 use App\Filament\Resources\CityResource\Pages;
 use App\Filament\Resources\CityResource\RelationManagers\DistrictsRelationManager;
+use App\Filament\Resources\CityResource\RelationManagers\PostalCodesRelationManager;
 use App\Models\City;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -71,7 +72,10 @@ class CityResource extends Resource
 
     public static function getRelations(): array
     {
-        return [DistrictsRelationManager::class];
+        return [
+            DistrictsRelationManager::class,
+            PostalCodesRelationManager::class,
+        ];
     }
 
     public static function getPages(): array
