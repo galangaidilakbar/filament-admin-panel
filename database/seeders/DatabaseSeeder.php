@@ -32,6 +32,7 @@ class DatabaseSeeder extends Seeder
             RoleAndPermissionSeeder::class,
             ProvinceSeeder::class,
             CitySeeder::class,
+            DistrictSeeder::class,
         ]);
     }
 }
