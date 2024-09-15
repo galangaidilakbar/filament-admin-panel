@@ -2,12 +2,14 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Imports\PostalCodeImporter;
 use App\Filament\Resources\PostalCodeResource\Pages;
 use App\Models\PostalCode;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\ImportAction;
 use Filament\Tables\Table;
 
 class PostalCodeResource extends Resource
@@ -54,6 +56,9 @@ class PostalCodeResource extends Resource
             ])
             ->filters([
                 //
+            ])
+            ->headerActions([
+                ImportAction::make()->importer(PostalCodeImporter::class),
             ])
             ->actions([Tables\Actions\EditAction::make()])
             ->bulkActions([
