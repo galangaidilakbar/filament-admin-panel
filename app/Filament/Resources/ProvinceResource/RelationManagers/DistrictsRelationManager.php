@@ -40,8 +40,24 @@ class DistrictsRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('name')
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('code'),
+                Tables\Columns\TextColumn::make('name')->searchable(
+                    query: function ($query, string $search) {
+                        return $query->where(
+                            'districts.name',
+                            'like',
+                            "%{$search}%"
+                        );
+                    }
+                ),
+                Tables\Columns\TextColumn::make('code')->searchable(
+                    query: function ($query, string $search) {
+                        return $query->where(
+                            'districts.code',
+                            'like',
+                            "%{$search}%"
+                        );
+                    }
+                ),
             ])
             ->filters([
                 //

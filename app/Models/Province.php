@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Staudenmeir\EloquentHasManyDeep\HasManyDeep;
+use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
 /**
  * @property int $id
@@ -28,12 +30,14 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
  *
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\District> $districts
  * @property-read int|null $districts_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\PostalCode[] $postalCodes
+ * @property-read int|null $postal_codes_count
  *
  * @mixin \Eloquent
  */
 class Province extends Model
 {
-    use HasFactory;
+    use HasFactory, HasRelationships;
 
     public function cities(): HasMany
     {
@@ -43,5 +47,13 @@ class Province extends Model
     public function districts(): HasManyThrough
     {
         return $this->hasManyThrough(District::class, City::class);
+    }
+
+    public function postalCodes(): HasManyDeep
+    {
+        return $this->hasManyDeep(PostalCode::class, [
+            City::class,
+            District::class,
+        ]);
     }
 }

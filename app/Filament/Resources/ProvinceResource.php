@@ -6,6 +6,7 @@ use App\Filament\Imports\ProvinceImporter;
 use App\Filament\Resources\ProvinceResource\Pages;
 use App\Filament\Resources\ProvinceResource\RelationManagers\CitiesRelationManager;
 use App\Filament\Resources\ProvinceResource\RelationManagers\DistrictsRelationManager;
+use App\Filament\Resources\ProvinceResource\RelationManagers\PostalCodesRelationManager;
 use App\Models\Province;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -66,7 +67,11 @@ class ProvinceResource extends Resource
 
     public static function getRelations(): array
     {
-        return [CitiesRelationManager::class, DistrictsRelationManager::class];
+        return [
+            CitiesRelationManager::class,
+            DistrictsRelationManager::class,
+            PostalCodesRelationManager::class,
+        ];
     }
 
     public static function getPages(): array
