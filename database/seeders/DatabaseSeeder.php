@@ -34,6 +34,7 @@ class DatabaseSeeder extends Seeder
             ProvinceSeeder::class,
             CitySeeder::class,
             DistrictSeeder::class,
+            PostalCodeSeeder::class,
         ]);
 
         // Warning: this command should be run on the last line of the seeder
