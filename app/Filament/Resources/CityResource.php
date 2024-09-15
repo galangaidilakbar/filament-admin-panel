@@ -2,12 +2,14 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Imports\CityImporter;
 use App\Filament\Resources\CityResource\Pages;
 use App\Models\City;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\ImportAction;
 use Filament\Tables\Table;
 
 class CityResource extends Resource
@@ -54,6 +56,9 @@ class CityResource extends Resource
             ])
             ->filters([
                 //
+            ])
+            ->headerActions([
+                ImportAction::make()->importer(CityImporter::class),
             ])
             ->actions([Tables\Actions\EditAction::make()])
             ->bulkActions([
