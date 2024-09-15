@@ -2,12 +2,14 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Imports\ProvinceImporter;
 use App\Filament\Resources\ProvinceResource\Pages;
 use App\Models\Province;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\ImportAction;
 use Filament\Tables\Table;
 
 class ProvinceResource extends Resource
@@ -48,6 +50,9 @@ class ProvinceResource extends Resource
             ])
             ->filters([
                 //
+            ])
+            ->headerActions([
+                ImportAction::make()->importer(ProvinceImporter::class),
             ])
             ->actions([Tables\Actions\EditAction::make()])
             ->bulkActions([
