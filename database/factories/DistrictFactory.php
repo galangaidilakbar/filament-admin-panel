@@ -20,7 +20,7 @@ class DistrictFactory extends Factory
         return [
             'city_id' => City::factory(),
             'name' => fake()->word(),
-            'code' => fake()->word().'-'.fake()->numerify('###'),
+            'code' => fake()->word().'-'.fake()->numerify('#####'),
         ];
     }
 }
