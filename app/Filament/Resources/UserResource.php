@@ -67,10 +67,12 @@ class UserResource extends Resource
                         ->password()
                         ->revealable()
                         ->rule(Password::default())
+                        ->dehydrated(false)
                         ->confirmed(),
 
                     TextInput::make('new_password_confirmation')
                         ->password()
+                        ->dehydrated(false)
                         ->revealable(),
                 ])
                 ->visibleOn('edit'),

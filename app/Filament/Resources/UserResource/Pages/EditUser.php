@@ -18,8 +18,13 @@ class EditUser extends EditRecord
 
     protected function mutateFormDataBeforeSave(array $data): array
     {
-        if (isset($data['new_password'])) {
-            $data['password'] = Hash::make($data['new_password']);
+        // Remove new_password and new_password_confirmation from $data
+        $newPassword = $data['new_password'] ?? null;
+        unset($data['new_password'], $data['new_password_confirmation']);
+
+        // Only update password if a new one is provided
+        if ($newPassword) {
+            $data['password'] = Hash::make($newPassword);
         }
 
         return $data;
