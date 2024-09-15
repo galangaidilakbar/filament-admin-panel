@@ -43,7 +43,15 @@ class PostalCodesRelationManager extends RelationManager
             ->recordTitleAttribute('code')
             ->columns([
                 Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('code'),
+                Tables\Columns\TextColumn::make('code')->searchable(
+                    query: function ($query, string $search) {
+                        return $query->where(
+                            'postal_codes.code',
+                            'like',
+                            "%{$search}%"
+                        );
+                    }
+                ),
             ])
             ->filters([
                 //
