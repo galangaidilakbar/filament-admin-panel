@@ -28,6 +28,10 @@ class DatabaseSeeder extends Seeder
         User::factory(10)->inactive()->create();
         User::factory(10)->active()->create();
 
-        $this->call([RoleAndPermissionSeeder::class, ProvinceSeeder::class]);
+        $this->call([
+            RoleAndPermissionSeeder::class,
+            ProvinceSeeder::class,
+            CitySeeder::class,
+        ]);
     }
 }

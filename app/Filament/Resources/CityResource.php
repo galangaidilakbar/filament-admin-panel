@@ -2,20 +2,17 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Imports\ProvinceImporter;
-use App\Filament\Resources\ProvinceResource\Pages;
-use App\Filament\Resources\ProvinceResource\RelationManagers\CitiesRelationManager;
-use App\Models\Province;
+use App\Filament\Resources\CityResource\Pages;
+use App\Models\City;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Actions\ImportAction;
 use Filament\Tables\Table;
 
-class ProvinceResource extends Resource
+class CityResource extends Resource
 {
-    protected static ?string $model = Province::class;
+    protected static ?string $model = City::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -26,11 +23,16 @@ class ProvinceResource extends Resource
     public static function form(Form $form): Form
     {
         return $form->schema([
-            Forms\Components\TextInput::make('name')->required()->string(),
-            Forms\Components\TextInput::make('code')
+            Forms\Components\Select::make('province_id')
+                ->relationship('province', 'name')
+                ->required(),
+            Forms\Components\TextInput::make('name')
                 ->required()
-                ->string()
-                ->unique('provinces', 'code', ignoreRecord: true),
+                ->maxLength(255),
+            Forms\Components\TextInput::make('code')
+                ->unique('cities', 'code', ignoreRecord: true)
+                ->required()
+                ->maxLength(255),
         ]);
     }
 
@@ -38,6 +40,7 @@ class ProvinceResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('province.name'),
                 Tables\Columns\TextColumn::make('name')->searchable(),
                 Tables\Columns\TextColumn::make('code')->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
@@ -52,9 +55,6 @@ class ProvinceResource extends Resource
             ->filters([
                 //
             ])
-            ->headerActions([
-                ImportAction::make()->importer(ProvinceImporter::class),
-            ])
             ->actions([Tables\Actions\EditAction::make()])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -65,15 +65,17 @@ class ProvinceResource extends Resource
 
     public static function getRelations(): array
     {
-        return [CitiesRelationManager::class];
+        return [
+            //
+        ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListProvinces::route('/'),
-            'create' => Pages\CreateProvince::route('/create'),
-            'edit' => Pages\EditProvince::route('/{record}/edit'),
+            'index' => Pages\ListCities::route('/'),
+            'create' => Pages\CreateCity::route('/create'),
+            'edit' => Pages\EditCity::route('/{record}/edit'),
         ];
     }
 }
